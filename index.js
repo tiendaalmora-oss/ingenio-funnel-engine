@@ -12,6 +12,7 @@ initCRMTracker();
 initFunnelEngine();
 
 // 2. Rutas Webhook
+app.get('/', (req, res) => res.send('OK'));
 app.use('/waha', wahaWebhook);
 
 const PORT = process.env.PORT || 3000;
@@ -23,3 +24,4 @@ Endpoints disponibles:
 - POST /waha/webhook
   `);
 });
+
