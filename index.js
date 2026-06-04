@@ -1,3 +1,4 @@
+console.log("=== BUILD DIAGNOSTICO V2 ===");
 const express = require('express');
 const { initCRMTracker } = require('./modules/crm/tracker');
 const { initFunnelEngine } = require('./modules/funnels/engine');
