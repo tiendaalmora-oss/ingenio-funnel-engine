@@ -1,0 +1,4 @@
+node_modules/
+ingenio.sqlite
+*.log
+.env
