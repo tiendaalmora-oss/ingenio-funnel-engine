@@ -15,6 +15,12 @@ initFunnelEngine();
 app.get('/', (req, res) => res.send('OK'));
 app.use('/waha', wahaWebhook);
 
+// ===== DIAGNÓSTICO: Ver qué inyecta EasyPanel =====
+console.log('[DIAGNÓSTICO] process.env.PORT RAW =', JSON.stringify(process.env.PORT));
+console.log('[DIAGNÓSTICO] Todas las vars de entorno con PORT:', 
+  Object.entries(process.env).filter(([k]) => k.includes('PORT')));
+// ===================================================
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`
