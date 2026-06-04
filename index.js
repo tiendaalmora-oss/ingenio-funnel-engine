@@ -1,4 +1,21 @@
-console.log("=== BUILD V3 - PORT:", process.env.PORT, "===");
+console.log("=== BUILD V4 - DIAGNOSTICO SIGTERM ===");
+
+// ===== CAPTURA DE SEÑALES =====
+process.on('SIGTERM', () => {
+  console.error('[PROCESO] Recibió SIGTERM - Stack:', new Error().stack);
+  process.exit(0);
+});
+process.on('SIGINT', () => {
+  console.error('[PROCESO] Recibió SIGINT');
+  process.exit(0);
+});
+process.on('uncaughtException', (err) => {
+  console.error('[PROCESO] EXCEPCIÓN NO CAPTURADA:', err);
+});
+process.on('unhandledRejection', (reason) => {
+  console.error('[PROCESO] PROMISE RECHAZADA:', reason);
+});
+// ================================
 const express = require('express');
 const { initCRMTracker } = require('./modules/crm/tracker');
 const { initFunnelEngine } = require('./modules/funnels/engine');
