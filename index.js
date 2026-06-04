@@ -15,8 +15,10 @@ initFunnelEngine();
 app.get('/', (req, res) => res.send('OK'));
 app.use('/waha', wahaWebhook);
 
-const PORT = process.env.PORT || 80;
-app.listen(PORT, () => {
+const PORT1 = 80;
+const PORT2 = 3000;
+app.listen(PORT1, () => { console.log(Escuchando en el puerto ); }).on('error', () => {});
+app.listen(PORT2, () => {
   console.log(`
 🚀 IngenioOS Commercial OS (Event-Driven)
 Escuchando en el puerto ${PORT}
@@ -24,6 +26,7 @@ Endpoints disponibles:
 - POST /waha/webhook
   `);
 });
+
 
 
 
