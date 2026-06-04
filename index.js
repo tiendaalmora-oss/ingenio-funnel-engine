@@ -1,4 +1,4 @@
-console.log("=== BUILD DIAGNOSTICO V2 ===");
+console.log("=== BUILD V3 - PORT:", process.env.PORT, "===");
 const express = require('express');
 const { initCRMTracker } = require('./modules/crm/tracker');
 const { initFunnelEngine } = require('./modules/funnels/engine');
@@ -12,15 +12,13 @@ app.use(express.json());
 initCRMTracker();
 initFunnelEngine();
 
-// 2. Rutas Webhook
+// 2. Rutas
 app.get('/', (req, res) => res.send('OK'));
+app.get('/health', (req, res) => {
+  console.log('[Health] Healthcheck OK');
+  res.status(200).json({ status: 'ok', port: process.env.PORT });
+});
 app.use('/waha', wahaWebhook);
-
-// ===== DIAGNÓSTICO: Ver qué inyecta EasyPanel =====
-console.log('[DIAGNÓSTICO] process.env.PORT RAW =', JSON.stringify(process.env.PORT));
-console.log('[DIAGNÓSTICO] Todas las vars de entorno con PORT:', 
-  Object.entries(process.env).filter(([k]) => k.includes('PORT')));
-// ===================================================
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, '0.0.0.0', () => {
