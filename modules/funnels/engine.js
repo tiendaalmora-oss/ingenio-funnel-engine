@@ -13,20 +13,23 @@ function initFunnelEngine() {
     const activeFunnels = db.db.prepare('SELECT * FROM funnel_states WHERE phone = ?').all(phone);
     let leadFunnel = activeFunnels.length > 0 ? activeFunnels[0] : null;
 
+    // 1. Siempre verificar primero si el mensaje es un Trigger para INICIAR/REINICIAR un embudo
+    const matchedProduct = matchTrigger(text);
+    if (matchedProduct) {
+      console.log(`[Funnels] Nuevo lead (o reinicio) para ${matchedProduct}`);
+      
+      const initialStep = 'captado';
+      db.upsertFunnelState(phone, matchedProduct, initialStep);
+      
+      const firstStepConfig = funnels[matchedProduct].steps[initialStep];
+      await waha.sendText(phone, firstStepConfig.message);
+      
+      eventBus.emit('step_changed', { phone, product: matchedProduct, old_step: leadFunnel ? leadFunnel.current_step : null, new_step: initialStep });
+      return;
+    }
+
     if (!leadFunnel) {
-      // Si NO está en ningún embudo, verificamos si activó un trigger
-      const matchedProduct = matchTrigger(text);
-      if (matchedProduct) {
-        console.log(`[Funnels] Nuevo lead para ${matchedProduct}`);
-        
-        const initialStep = 'captado';
-        db.upsertFunnelState(phone, matchedProduct, initialStep);
-        
-        const firstStepConfig = funnels[matchedProduct].steps[initialStep];
-        await waha.sendText(phone, firstStepConfig.message);
-        
-        eventBus.emit('step_changed', { phone, product: matchedProduct, old_step: null, new_step: initialStep });
-      }
+      // No está en un embudo y tampoco envió un trigger
       return;
     }
 

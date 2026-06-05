@@ -37,12 +37,18 @@ app.get('/health', (req, res) => {
 });
 app.use('/waha', wahaWebhook);
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`
-🚀 IngenioOS Commercial OS (Event-Driven)
-Escuchando en el puerto ${PORT} (0.0.0.0)
-Endpoints disponibles:
-- POST /waha/webhook
-  `);
+const appPort = process.env.PORT || 80;
+
+app.listen(appPort, '0.0.0.0', () => {
+  console.log(`🚀 IngenioOS Escuchando en el puerto principal ${appPort} (0.0.0.0)`);
 });
+
+// Escuchar también en el 3000 por si EasyPanel hace healthchecks ciegos ahí
+if (appPort != 3000) {
+  try {
+    const app3000 = express();
+    app3000.get('/health', (req, res) => res.status(200).json({status: 'ok'}));
+    app3000.get('/', (req, res) => res.status(200).send('OK'));
+    app3000.listen(3000, '0.0.0.0', () => console.log('🛡️ Healthcheck secundario en puerto 3000'));
+  } catch(e) {}
+}
