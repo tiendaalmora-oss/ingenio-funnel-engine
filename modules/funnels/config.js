@@ -1,84 +1,46 @@
 // Configuración de los embudos para distintos productos
 const funnels = {
   avios: {
-    triggers: ['interesado en avios', 'info de avios'], // Frases de Ads
+    triggers: ['quiero la demo gratis de avios', 'demo gratis'],
     steps: {
       captado: {
-        message: "¡Hola! 👋 Gracias por tu interés en AviOS, el sistema diseñado para optimizar ventas y no perder dinero en el mostrador.\n\nPara pasarte la información exacta, ¿tienes una Carnicería (Responde 1) o una Avícola (Responde 2)?",
+        message: "👋 ¡Hola! Qué bueno tenerte por acá.\n\nAntes que nada quiero felicitarte porque la mayoría de los negocios sigue manejando ventas, stock y costos de forma manual, y eso termina generando pérdidas invisibles todos los meses.\n\nEl simple hecho de que estés buscando herramientas para profesionalizar tu negocio ya te pone varios pasos adelante. 🚀\n\nAntes de enviarte la demo gratuita quiero asegurarme de que AviOS sea realmente para vos.\n\nAviOS es un sistema:\n✅ Pago único.\n✅ Sin mensualidades.\n✅ Instalado localmente en tu PC.\n✅ Compatible con balanzas electrónicas.\n✅ Diseñado especialmente para carnicerías, avícolas y comercios similares.\n\nY algo que suele sorprender a nuestros clientes:\n💰 Todo esto por menos de $50.000 en pago único.\n\nPara ayudarte mejor respondeme:\n1️⃣ ¿Qué tipo de negocio tenés?\n2️⃣ ¿Lo vas a usar en una PC o en una caja con computadora?",
         transitions: {
-          "1": "landing_carniceria",
-          "carniceria": "landing_carniceria",
-          "carnicería": "landing_carniceria",
-          "2": "landing_avicola",
-          "avicola": "landing_avicola",
-          "avícola": "landing_avicola"
+          "*": "presentacion"
         },
-        fallback: "Por favor, responde *1* para Carnicería o *2* para Avícola.",
-        followup: null // El seguimiento inicial no es necesario si acaban de entrar
-      },
-      landing_carniceria: {
-        message: "¡Excelente! 🥩\nPara carnicerías, AviOS tiene balanza integrada y cálculo de mermas real. Te ahorra muchísimo tiempo.\n\nMira este video corto donde mostramos cómo funciona en un local real y testimonios de otros dueños:\n👉 https://ingeniodigital.shop/avios-demo \n\nCuando termines de verlo, escríbeme *OK* y te paso el precio promocional.",
-        transitions: {
-          "ok": "oferta",
-          "listo": "oferta",
-          "ya": "oferta",
-          "si": "oferta"
-        },
-        fallback: "Escríbeme *OK* cuando termines de ver la información del link para pasarte la promoción.",
-        followup: {
-          hours: 1, // Si en 1 hora no responde "OK"
-          message: "¡Hola! ¿Pudiste revisar el enlace con la demostración? Si tienes alguna duda, escríbeme. Si quieres conocer el precio de promoción, responde *OK*."
-        }
-      },
-      landing_avicola: {
-        message: "¡Genial! 🍗\nPara avícolas, AviOS facilita el despiece y control de stock ultra rápido.\n\nMira cómo funciona y casos de éxito aquí:\n👉 https://ingeniodigital.shop/avios-demo \n\nCuando termines de verlo, escríbeme *OK* y te paso el precio.",
-        transitions: {
-          "ok": "oferta",
-          "listo": "oferta",
-          "ya": "oferta",
-          "si": "oferta"
-        },
-        fallback: "Escríbeme *OK* cuando termines de ver la información del link para pasarte la promoción.",
-        followup: {
-          hours: 1,
-          message: "¡Hola! ¿Pudiste revisar el enlace? Si quieres conocer el precio de promoción, responde *OK*."
-        }
-      },
-      oferta: {
-        message: "¡Perfecto! El precio de promoción actual (Pago Único, sin mensualidades) es de *$39.990 ARS*.\nIncluye instalación y 15 días de garantía.\n\n¿Te gustaría que te envíe los métodos de pago para avanzar hoy mismo? (Responde SÍ o NO)",
-        transitions: {
-          "si": "cierre",
-          "no": "ofrecer_demo"
-        },
-        fallback: "Responde *SÍ* para los métodos de pago, o *NO* si tienes dudas.",
-        followup: {
-          hours: 2,
-          message: "¡Hola! ¿Qué te pareció la promoción de $39.990? Si quieres avanzar, responde SÍ. Si tienes dudas, cuéntame."
-        }
-      },
-      cierre: {
-        message: "¡Excelente decisión! 🎉\nTransfiere a este CBU o Alias:\n*Alias:* ingenio.digital.mp\n\nEnvíame el comprobante por aquí y te mando el acceso inmediato.",
-        transitions: {}, 
-        followup: {
-          hours: 24,
-          message: "¡Hola! Pasaba a preguntarte si tuviste algún inconveniente con el pago. ¡Cualquier duda estoy para ayudarte!"
-        }
-      },
-      ofrecer_demo: {
-        message: "Entiendo perfectamente. Es importante estar seguro antes de invertir en tu negocio.\n\n¿Te gustaría que agendemos una *Demostración en vivo por videollamada* de 15 minutos? Así te muestro el sistema en mi pantalla y resolvemos todas tus dudas.\n(Responde SÍ para agendar o NO GRACIAS).",
-        transitions: {
-          "si": "agendar_demo",
-          "no gracias": "rechazo"
-        },
+        fallback: null,
         followup: null
       },
-      agendar_demo: {
-        message: "¡Genial! Puedes agendar el día y la hora que mejor te quede en este enlace:\n👉 https://calendly.com/ingeniodigital/demo-avios",
-        transitions: {}
+      presentacion: {
+        message: "Perfecto 👍\n\nPor lo que me comentás, creo que AviOS puede encajar muy bien con tu negocio.\n\nAntes de enviarte la demo quiero mostrarte cómo funciona realmente.\n\n👉 https://ingeniodigital.shop/avios-demo\n\nEn esta página vas a encontrar:\n✅ Videos reales.\n✅ Capturas del sistema.\n✅ Casos de uso.\n✅ Testimonios.\n✅ Compatibilidad con balanzas.\n✅ Preguntas frecuentes.\n\nTomate unos minutos para verlo.\n\nCuando termines escribime *OK* y te envío la demo.",
+        transitions: {
+          "ok": "entrega_demo",
+          "listo": "entrega_demo",
+          "ya": "entrega_demo",
+          "si": "entrega_demo",
+          "dale": "entrega_demo"
+        },
+        fallback: "Escríbeme *OK* cuando termines de ver la información para enviarte el acceso a la Demo.",
+        followup: null
       },
-      rechazo: {
-        message: "Comprendido. Seguimos a tu disposición para cuando necesites modernizar tu negocio. ¡Que tengas excelentes ventas! 😊",
-        transitions: {}
+      entrega_demo: {
+        message: "Excelente 🙌\n\nAcá te dejo el acceso directo a la demo funcional para que lo pruebes en tu PC:\n\n👉 [LINK DE DESCARGA O DEMO]\n\nTe envío también las instrucciones de instalación y una guía rápida de uso.\n\nProbalo tranquilo y cualquier duda que tengas en el camino, escribime por acá.",
+        transitions: {},
+        fallback: null,
+        followup: [
+          {
+            hours: 2,
+            message: "🎁 *BENEFICIO DE ACCIÓN RÁPIDA*\n\nMientras probás AviOS quiero dejarte algo importante.\n\nLa mayoría de nuestros clientes primero prueba el sistema y después decide si realmente encaja con su negocio. Por eso durante las próximas 48 horas voy a dejarte reservado un beneficio especial.\n\nSi después de probar AviOS sentís que era exactamente lo que estabas buscando, vas a poder acceder por:\n\n💰 *$39.900* pago único (En lugar de $47.900).\n\nAdemás te llevás:\n🎁 Instalación remota bonificada.\n🎁 Capacitación inicial.\n🎁 Configuración personalizada.\n🎁 Soporte de acompañamiento.\n\nY además:\n🛡️ *Garantía de satisfacción de 15 días.*\n\nSin mensualidades. Sin contratos. Sin costos ocultos.\n\nProbalo tranquilo. Y si sentís que realmente te ayuda en el día a día, simplemente respondeme por acá."
+          },
+          {
+            hours: 24,
+            message: "👋 Hola. Quería consultarte si ya pudiste probar la demo de AviOS.\n\nMuchos clientes descubren en pocos minutos cuánto tiempo pueden ahorrar cuando dejan de hacer cuentas manualmente o controlar stock de memoria.\n\nSi te surgió alguna duda con la instalación o el uso, respondeme por acá y te ayudo."
+          },
+          {
+            hours: 48,
+            message: "⏳ *Quería avisarte algo antes de cerrar el beneficio especial.*\n\nSi después de probar AviOS sentís que te ayuda a trabajar más rápido, controlar mejor el stock y evitar errores en el mostrador, todavía estás a tiempo de acceder por el precio promocional de *$39.900*.\n\nIncluyendo:\n✅ Instalación\n✅ Capacitación\n✅ Configuración\n✅ Soporte\n✅ Garantía de 15 días\n\nDespués de hoy volverá a su valor habitual de $47.900.\n\nSi querés aprovecharlo, respondeme por acá y te explico los siguientes pasos."
+          }
+        ]
       }
     }
   }

@@ -48,7 +48,12 @@ function initFunnelEngine() {
     }
 
     const normalizedText = text.trim().toLowerCase();
-    const nextStepId = currentStepConfig.transitions[normalizedText];
+    let nextStepId = currentStepConfig.transitions[normalizedText];
+
+    // Novedad: Transición comodín '*' para respuestas libres
+    if (!nextStepId && currentStepConfig.transitions['*']) {
+      nextStepId = currentStepConfig.transitions['*'];
+    }
 
     if (nextStepId && funnelConfig.steps[nextStepId]) {
       // Transición exitosa

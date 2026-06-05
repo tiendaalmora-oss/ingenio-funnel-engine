@@ -24,15 +24,26 @@ cron.schedule('*/15 * * * *', async () => {
       const hoursInactive = (new Date() - new Date(lead.last_interaction)) / (1000 * 60 * 60);
       
       // Si la inactividad real supera lo que pide la regla del paso
-      if (hoursInactive >= stepConfig.followup.hours && followup_count === 0) {
-        console.log(`[Cron] Enviando seguimiento a ${phone} en ${current_step}`);
-        await waha.sendText(phone, stepConfig.followup.message);
-        
-        // Marcamos el seguimiento
-        db.updateFollowupCount(phone, product, 1);
-        
-        // El envío emite su propio evento desde el sender, 
-        // pero también podríamos emitir "followup_sent" si lo necesitamos a futuro.
+      let nextFollowup = null;
+
+      // Soporte para Drip Campaigns (Múltiples seguimientos en un array)
+      if (Array.isArray(stepConfig.followup)) {
+        if (followup_count < stepConfig.followup.length) {
+          nextFollowup = stepConfig.followup[followup_count];
+        }
+      } else if (stepConfig.followup && followup_count === 0) {
+        // Compatibilidad hacia atrás (un solo seguimiento)
+        nextFollowup = stepConfig.followup;
+      }
+
+      if (nextFollowup && hoursInactive >= nextFollowup.hours) {
+        console.log(`[Cron] Ejecutando seguimiento de ${nextFollowup.hours}hs para ${phone}`);
+        try {
+          await waha.sendText(phone, nextFollowup.message);
+          db.updateFollowupCount(phone, product, followup_count + 1);
+        } catch (error) {
+          console.error(`[Cron] Error enviando a ${phone}:`, error.message);
+        }
       }
     }
   } catch (error) {
