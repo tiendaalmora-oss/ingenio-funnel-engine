@@ -7,7 +7,11 @@ const funnels = {
         message: "¡Hola! 👋 Gracias por tu interés en AviOS, el sistema diseñado para optimizar ventas y no perder dinero en el mostrador.\n\nPara pasarte la información exacta, ¿tienes una Carnicería (Responde 1) o una Avícola (Responde 2)?",
         transitions: {
           "1": "landing_carniceria",
-          "2": "landing_avicola"
+          "carniceria": "landing_carniceria",
+          "carnicería": "landing_carniceria",
+          "2": "landing_avicola",
+          "avicola": "landing_avicola",
+          "avícola": "landing_avicola"
         },
         fallback: "Por favor, responde *1* para Carnicería o *2* para Avícola.",
         followup: null // El seguimiento inicial no es necesario si acaban de entrar
@@ -17,7 +21,8 @@ const funnels = {
         transitions: {
           "ok": "oferta",
           "listo": "oferta",
-          "ya": "oferta"
+          "ya": "oferta",
+          "si": "oferta"
         },
         fallback: "Escríbeme *OK* cuando termines de ver la información del link para pasarte la promoción.",
         followup: {
@@ -30,7 +35,8 @@ const funnels = {
         transitions: {
           "ok": "oferta",
           "listo": "oferta",
-          "ya": "oferta"
+          "ya": "oferta",
+          "si": "oferta"
         },
         fallback: "Escríbeme *OK* cuando termines de ver la información del link para pasarte la promoción.",
         followup: {
