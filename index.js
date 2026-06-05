@@ -3,7 +3,7 @@ console.log("=== BUILD V4 - DIAGNOSTICO SIGTERM ===");
 // ===== CAPTURA DE SEÑALES =====
 process.on('SIGTERM', () => {
   console.error('[PROCESO] Recibió SIGTERM - Stack:', new Error().stack);
-  process.exit(0);
+  // No hacemos process.exit(0) inmediato para permitir que las promesas pendientes terminen
 });
 process.on('SIGINT', () => {
   console.error('[PROCESO] Recibió SIGINT');

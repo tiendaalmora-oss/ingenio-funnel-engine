@@ -1,5 +1,4 @@
 [variables]
-PORT = "80"
 
 [start]
 cmd = "node index.js"
