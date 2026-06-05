@@ -1,4 +1,6 @@
-console.log("=== BUILD V4 - DIAGNOSTICO SIGTERM ===");
+console.log("======================================");
+console.log("=== BUILD V7 - THE FINAL COUNTDOWN ===");
+console.log("======================================");
 
 // ===== CAPTURA DE SEÑALES =====
 process.on('SIGTERM', () => {
